@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt]{article}
+\usepackage{amssymb,amsthm}
+\usepackage{amsmath,amssymb,CJK}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{listings}
+\usepackage{enumerate}
+
+\openup 7pt\pagestyle{plain} \topmargin -40pt \textwidth
+14.5cm\textheight 21.5cm
+\parskip .09 truein
+\baselineskip 4pt\lineskip 4pt \setcounter{page}{1}
+\def\a{\alpha}\def\b{\beta}\def\d{\delta}\def\D{\Delta}\def\fs{\footnotesize}
+\def\g{\gamma}
+\def\G{\Gamma}\def\l{\lambda}\def\L{\Lambda}\def\o{\omiga}\def\p{\psi}
+\def\se{\subseteq}\def\seq{\subseteq}\def\Si{\Sigma}\def\si{\sigma}\def\vp{\varphi}\def\es{\varepsilon}
+\def\sc{\scriptstyle}\def\ssc{\scriptscriptstyle}\def\dis{\displaystyle}
+\def\cl{\centerline}\def\ll{\leftline}\def\rl{\rightline}\def\nl{\newline}
+\def\ol{\overline}\def\ul{\underline}\def\wt{\widetilde}\def\wh{\widehat}
+\def\rar{\rightarrow}\def\Rar{\Rightarrow}\def\lar{\leftarrow}
+\def\Lar{\Leftarrow}\def\Rla{\rightleftarrow}\def\bs{\backslash}
+\def\ra{\rangle}\def\la{\langle}\def\hs{\hspace*}\def\rb{\raisebox}
+\def\ni{\noindent}\def\hi{\hangindent}\def\ha{\hangafter}
+\def\vs{\vspace*}
+\def\hom#1{\mbox{\rm Hom($#1,#1$)}}
+\def\thebeg{\vskip8pt\par\ni}
+\def\theend{\vskip5pt\par}
+\def\chabeg{\pagebreak\par}
+\def\chaend{\vskip20pt\par}
+\def\secbeg{\vskip15pt\par}
+\def\secend{\vskip10pt\par}
+\def\exebeg{\vskip10pt}
+\def\exeend{\vskip6pt}
+\def\undot#1{\mbox{$\mbox{#1}\hs{-1.5ex}_{_{\dis\centerdot}}\,\,$}}
+\def\qed{\hfill\mbox{$\Box$}}
+\def\C{\mathbb{C}}
+\def\Q{\mathbb{Q}}
+\def\ii{\mbox{\,{\bf i}\,}}
+\def\jj{\mbox{\,{\bf j}\,}}
+\def\AA{{\cal A}}
+\def\BB{{\cal B}}
+\def\DD{{\cal D}}
+\def\EE{{\mbox{\bf 1}}}
+\def\OO{{\mbox{\bf 0}}}
+\def\kk{{\mbox{\bf k}}}
+\def\R{\mathbb{R}}
+\def\F{\mathbb{F}{\ssc\,}}
+%\def\similar{\rb{-4pt}{\mbox{\,\~\,}}}
+\def\similar{\backsim}
+\def\Llra{\Longleftrightarrow}
+\def\Lra{\Longrightarrow}
+\def\Lla{\Longleftarrow}
+\def\mat#1#2{\mbox{$\left(\begin{array}{#1}#2\end{array}\right)$}}
+\def\det#1#2{\mbox{$\left|\begin{array}{#1}#2\end{array}\right|$}}
+\def\eset{\emptyset}
+\parindent=5ex
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\newtheorem{Example}{\text{例}}
+\begin{CJK*}{UTF8}{gbsn}
+
+\date{}
+\title{Database Assignment1}
+\author{Qinglin Li, 5110309074}
+\begin{document}
+\maketitle
+\section*{Problem 1}
+\begin{enumerate}
+\item Data redundancy and inconsistency: multiple file formats, duplication of information in different files
+\item Difficulty in accessing data: need to write a new program to carry out each new task 
+\item Data isolation — multiple files and formats 
+\item Integrity problems 
+\end{enumerate}
+\section*{Problem 2}
+\begin{enumerate}
+\item Cost of Hardware and Software
+\item Cost of Data Conversion
+\item Cost of Staff Training
+\item Appointing Technical Staff
+\item Database Damage
+\end{enumerate}
+\section*{Problem 3}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & \textit{\textbf{and}} unknown & \textit{\textbf{or}} unknown & \textit{\textbf{not}} \\ 
+\hline 
+true & unknown & true & false \\ 
+\hline 
+false & false & unknown & true \\ 
+\hline 
+unknown & unknown & unknown & unknown \\ 
+\hline 
+\end{tabular} 
+
+\section*{Problem 4}
+\begin{enumerate}[a.]
+\item
+minimum: $\max(r, s)$. $R\subset S$ or $S\subset R$\\
+maximum: $r+s$. $R\cap S = \emptyset$
+\item
+minimum: $0$. $R.B\cap S.B=\emptyset$\\
+maximum: $r\times s$. All elements in $R.A$ and $S.C$ are distinct and All elements in $R.B$ and $S.B$ are the same.
+\item
+minimum: $0$. $R.B \cap S.B = \emptyset$\\
+maximum: $min(r, s)$. All elements in $R.B$ are distinct and one relation's B attribute is a subset of another
+\item
+That relation equals to $R$\\
+minimum:  $r$\\
+maximum: $r$
+\item
+minimum: $0$. All tuples have $A=B$\\
+maximum: $r$. All tuples have $A\neq B$
+\end{enumerate}
+
+\section*{Problem 5}
+\begin{enumerate}[a.]
+\item
+$\pi_{employee\_name, city}\left(employee \bowtie \sigma_{company\_name=\text{``First Bank Corporation"}}(works)\right)$
+\item
+$\pi_{employee\_name, street, city}\left(employee \bowtie \sigma_{company\_name=\text{``First Bank Corporation"}\bigwedge salary>10000}(works)\right)$
+\item
+$\pi_{name}\Big(\sigma_{number = \mathcal{G}_{max(number)}(c)}\big(\rho_{c(name,number)}\left(_{company\_name}\mathcal{G}_{count(employee\_name)}(works)\right)\big)\Big)$
+\item
+$\sigma_{avg\_sly>\pi_{avg\_sly}(\sigma_{name=\text{``First Bank Corporation"}}(c))}\Big(\rho_{c(name, avg\_sly)}\left(\left(_{company\_name}\mathcal{G}_{avg(salary)}(works)\right)\right)\Big)$
+\end{enumerate}
+
+\section*{Problem 6}
+\begin{enumerate}[a.]
+\item
+$\pi_{name}\Big(\sigma_{publisher=\text{``McGraw-Hill''}}(employee\bowtie loan \bowtie books)\Big)$
+\item
+$\pi_{name}\Big((employee \bowtie loan)\div \pi_{isbn}\big(\sigma_{publisher=\text{``McGraw-Hill"}}(books)\big)\Big)$
+\item
+$\pi_{name}\Big(employee \bowtie \sigma_{n>5}\left(\rho_{l(empno, n)}\big({}_{empno}\mathcal{G}_{count(isbn)}\big(loan \bowtie \sigma_{publisher=\text{``McGraw-Hill"}}(books)\big)\big)\right)\Big)$
+\item
+$\pi_{name, pub}\Big(employee \bowtie \sigma_{n>5}\left(\rho_{l(empno, pub, n)}\big({}_{empno, publisher}\mathcal{G}_{count(isbn)}(loan \bowtie books)\big)\right)\Big)$
+\end{enumerate}
+\end{CJK*}
+\end{document}
