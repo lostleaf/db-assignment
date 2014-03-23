@@ -1,0 +1,186 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm} 
+\usepackage{graphicx,psfrag} 
+\usepackage{fancyhdr}
+\usepackage{color} 
+\usepackage{geometry}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{leftidx} 
+\usepackage{mathrsfs} 
+\usepackage{xeCJK}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\bfseries,       % keyword style
+  language=SQL,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+\setCJKmainfont{Kai}
+\geometry{left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+\rfoot{\thepage}
+\rhead{\bfseries Database System Concept}
+\setlength{\parskip}{0.7ex plus0.2ex minus0.2ex}
+\cfoot{\empty}
+\lhead{\empty}
+
+
+\title{Assignment 3}
+\author{Qinglin Li, 5110309074}
+\date{}
+\maketitle
+
+%\headheight 3pt
+\thispagestyle{fancy}
+
+\section*{Problem 1}
+\begin{itemize}
+\item
+\textbf{Atomicity}: Each transaction is "all or nothing"---if one part of the transaction fails, the entire transaction fails, and the database state is left unchanged.\\
+Example: Assume that a transaction attempts to subtract 10 from A and add 10 to B. If after removing 10 from A, the system crashes. Then when the system recovers, either A remains the old value or 10 is added to B.
+\item
+\textbf{Consistency}: Any transaction will bring the database from one valid state to another. Any data written to the database must be valid according to all defined rules.\\
+Example: Assume in a table there is a contraint requires the sum of A and B to be 100. If a transaction attempts to subtract 10 from A without modifying B, the transaction should not be commited.
+\item
+\textbf{Isolation}: The concurrent execution of transactions results in a system state that would be obtained if transactions were executed serially.\\
+Example: Assume two transactions T1 and T2 both attempts to subtract 10 from A and add 10 to B. The order of two transactions should either be 
+\begin{enumerate}
+\item T1 subtracts 10 from A.
+\item T1 adds 10 to B.
+\item T2 subtracts 10 from B.
+\item T2 adds 10 to A.
+\end{enumerate}
+or 
+\begin{enumerate}
+\item T2 subtracts 10 from A.
+\item T2 adds 10 to B.
+\item T1 subtracts 10 from B.
+\item T1 adds 10 to A.
+\end{enumerate}
+\item
+\textbf{Durability}: Transactions that have committed will survive permanently.\\
+Example: A transaction is commited, but when the changes are still queued in the disk buffer waiting to be commited to the disk, the power fails. Then after the system recovers, the uncommited changes should be commited to the disk.
+\end{itemize}
+\newpage
+\section*{Problem 2}
+\begin{lstlisting}
+create table loan(
+    loan_number char(10),
+    branch_name char(15),
+    amount integer,
+    primary key (loan_number),
+    foreign key (branch_name) references branch
+)
+
+create table borrower(
+    customer_name char(20),
+    loan_number char(10),
+    primary key (customer_name, loan_number),
+    foreign key (customer_name) references customer,
+    foreign key (loan_number) references loan
+)
+\end{lstlisting}
+
+\section*{Problem 3}
+\begin{enumerate}[a.]
+\item \textbf{foreign key} (name) \textbf{references} salaried\_workder or hourly\_worker
+\item use general assertions
+\begin{lstlisting}
+create assertion name_ref 
+check(
+    not exists (
+        select * from address
+        where name not in (
+            select name from salaried_workder 
+            union
+            select name from hourly_worker
+        )    
+    )
+)
+\end{lstlisting}
+\end{enumerate}
+\section*{Problem 4}
+\begin{enumerate}[a.]
+\item
+\begin{lstlisting}
+select company from works
+group by company
+having avg(salary) > (
+    select avg(salary) from works 
+    where company = 'First Bank Corporation'
+)
+\end{lstlisting}
+\newpage
+\item It should work with MySQL
+\begin{lstlisting}
+delimiter //
+create function avg_salary (company_name varchar(20))
+returns double
+begin
+    declare ret double;
+    select avg(salary) into ret from works where company = company_name;
+    return ret;
+end;//
+delimiter ;
+select name from works 
+where avg_salary(name) > avg_salary('First Bank Corporation');
+\end{lstlisting}
+\end{enumerate}
+\section*{Problem 5}
+\begin{enumerate}[a.]
+\item $\{t|\exists p\in r (t[A]=p[A])\}$
+\item $\{t|t\in r\wedge t[B]=17\}$
+\item $\{t|\exists p\in r, \exists q\in s (t[A] = p[A]\wedge t[B] = p[B]\wedge t[C] = p[C]\wedge t[D] = q[D]\wedge t[E] = q[E]\wedge t[F] = q[F])\}$
+\item $\{t|\exists p\in r, \exists q\in s (t[A] = p[A]\wedge t[F] = q[F]\wedge p[C] = q[D]\}$
+\end{enumerate}
+
+\section*{Problem 6}
+\begin{enumerate}[a.]
+\item $\Pi_A(\sigma_{B=17}(r))$
+\item $r\bowtie s$
+\item $\Pi_A(r)\bigcup(s\div \Pi_C(s))$
+\item $\Pi_A\big(\sigma_{B>D}(r \bowtie s \bowtie \rho_{t(C,D)}(r))\big)$
+\end{enumerate}
+
+\section*{Problem 7}
+\begin{enumerate}[a.]
+\item
+$\{t|\exists r\in R \exists s\in S(r[A]=s[A]\wedge t[A]=r[A]\wedge t[B]=r[B]\wedge t[C]=s[C])\vee \exists s\in S(\neg \exists r\in R(r[A]=s[A])\wedge t[A]=s[A]\wedge t[C]=s[C]\wedge t[B]=null)\}$
+\item
+$\{t|\exists r\in  R\exists s\in  S(r[A]=s[A]\wedge t[A]=r[A]\wedge t[B]=r[B]\wedge t[C]=s[C]) \vee  \exists r \in   R(\neg \exists s \in  S(r[A]=s[A])\wedge t[A]=r[A]\wedge t[B]=r[B]\wedge t[C]=null) \vee  \exists s \in   S(\neg \exists r \in  R(r[A]=s[A]) \wedge  t[A]=s[A] \wedge  t[C]=s[C] \wedge  t[B]=null)\}$
+\item
+$\{t|\exists r\in  R\exists s\in  S(r[A]=s[A]\wedge t[A]=r[A]\wedge t[B]=r[B]\wedge t[C]=s[C]) \vee  \exists r \in   R(\neg \exists s \in  S(r[A]=s[A]) \wedge  t[A]=r[A] \wedge  t[B]=r[B] \wedge  t[C]=null)\}$
+\end{enumerate}
+\end{document}
