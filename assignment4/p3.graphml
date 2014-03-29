@@ -287,12 +287,12 @@
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="standard" target="none"/>
+          <y:Arrows source="none" target="none"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e7" source="n8" target="n7">
+    <edge id="e7" source="n9" target="n7">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -302,7 +302,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e8" source="n9" target="n7">
+    <edge id="e8" source="n10" target="n7">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -312,14 +312,14 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e9" source="n10" target="n7">
+    <edge id="e9" source="n8" target="n7">
+      <data key="d9"/>
       <data key="d10">
-        <y:PolyLineEdge>
+        <y:GenericEdge configuration="com.yworks.edge.framed">
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:LineStyle color="#000000" type="line" width="3.0"/>
           <y:Arrows source="none" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
+        </y:GenericEdge>
       </data>
     </edge>
   </graph>
