@@ -1,0 +1,137 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm} 
+\usepackage{graphicx,psfrag} 
+\usepackage{fancyhdr}
+\usepackage{color} 
+\usepackage{geometry}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{leftidx} 
+\usepackage{mathrsfs} 
+\usepackage{xeCJK}
+ 
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\bfseries,       % keyword style
+  language=SQL,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+ 
+\geometry{left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm}
+ 
+\begin{document}
+ 
+\pagestyle{fancy}
+\rfoot{\thepage}
+\rhead{\bfseries Database System Concept}
+\setlength{\parskip}{0.7ex plus0.2ex minus0.2ex}
+\cfoot{\empty}
+\lhead{\empty}
+ 
+ 
+\title{Assignment 5}
+\author{Qinglin Li, 5110309074}
+\date{}
+\maketitle
+ 
+\headheight 3pt
+\thispagestyle{fancy}
+
+\section*{Problem 1}
+\begin{itemize}
+\item
+\textbf{Repetition of Information} is a condition in a relational database where the values of one attribute are determined by the values of another attribute in the same relation, and both values are repeated throughout the relation.
+
+\item
+\textbf{Inability to represent information} is a condition where a relationship exists amoung only a proper subset of the attributes in a relation.
+\end{itemize}
+
+\section*{Problem 2}
+The three design goals are lossless-join decompositions, dependency preserving decompositions, and minimization of repetition of information. They are desirable so we can maintain an accurate database, check correctness of updates quickly, and use the smallest amount of space possible.
+
+\section*{Problem 3}
+4NF is more desirable than BCNF because it reduces the repetition of information.
+
+\section*{Problem 4}
+The goal is to prove $\alpha\rightarrow \beta\gamma \Longrightarrow \alpha\rightarrow\beta \wedge\alpha\rightarrow\gamma$\par
+By axiom of reflexivity, we obtain $\beta\gamma\rightarrow\beta$ and $\beta\gamma\rightarrow\gamma$\par
+By axiom of transitivity and $\alpha\rightarrow \beta\gamma$, we obtain $\alpha\rightarrow\beta$ and $\alpha\rightarrow\gamma$
+
+\section*{Problem 5}
+Attribute closure:\par
+$A \rightarrow ABCDE$\par
+$B \rightarrow BD$\par
+$C \rightarrow C$\par
+$D \rightarrow D$\par
+$E \rightarrow ABCDE$\par
+$AB \rightarrow ABCDE$\par
+$AC \rightarrow ABCDE$\par
+$AD \rightarrow ABCDE$\par
+$AE \rightarrow ABCDE$\par
+$BC \rightarrow ABCDE$\par
+$BD \rightarrow BD$\par
+$BE \rightarrow ABCDE$\par
+$CD \rightarrow ABCDE$\par
+$CE \rightarrow ABCDE$\par
+$DE \rightarrow ABCDE$\par
+$ABC \rightarrow ABCDE$\par
+$ABD \rightarrow ABCDE$\par
+$ABE \rightarrow ABCDE$\par
+$ACD \rightarrow ABCDE$\par
+$ACE \rightarrow ABCDE$\par
+$ADE \rightarrow ABCDE$\par
+$BCD \rightarrow ABCDE$\par
+$BDE \rightarrow ABCDE$\par
+$CDE \rightarrow ABCDE$\par
+$ABCD \rightarrow ABCDE$\par
+$ABCE \rightarrow ABCDE$\par
+$ABDE \rightarrow ABCDE$\par
+$ACDE \rightarrow ABCDE$\par
+$BCDE \rightarrow ABCDE$\par
+It's easy to find the candidate keys are $A$, $BC$, $CD$, $E$.
+
+\section*{Problem 6}
+Assume we have a relation $R(person, hobby, research\_interest)$.\par
+\begin{tabular}{c|c|c}
+\hline 
+person & hobby & research\_interest \\ 
+\hline 
+Alice & badminton & AI \\ 
+Alice & tennis & database\\
+Alice & badminton & database\\
+Alice & tennis & AI\\
+Bob & badminton & AI\\
+\hline 
+\end{tabular} 
+
+There is no functional dependency so R is in BCNF. But there is a multivalued dependency $person \twoheadrightarrow hobby$ so R is not in 4NF.
+
+\end{document}
