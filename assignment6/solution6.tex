@@ -1,0 +1,91 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm} 
+\usepackage{graphicx,psfrag} 
+\usepackage{fancyhdr}
+\usepackage{color} 
+\usepackage{geometry}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{leftidx} 
+\usepackage{mathrsfs} 
+\usepackage{xeCJK}
+ 
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\bfseries,       % keyword style
+  language=SQL,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+ 
+\geometry{left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm}
+ 
+\begin{document}
+ 
+\pagestyle{fancy}
+\rfoot{\thepage}
+\rhead{\bfseries Database System Concept}
+\setlength{\parskip}{0.7ex plus0.2ex minus0.2ex}
+\cfoot{\empty}
+\lhead{\empty}
+ 
+ 
+\title{Assignment 6}
+\author{Qinglin Li, 5110309074}
+\date{}
+\maketitle
+ 
+\headheight 3pt
+\thispagestyle{fancy}
+\section*{Problem 1}
+RAID level 1.Because rebuilding in this case just involves copying data from the failed disk's mirror. In the other levels, rebuilding involves reading the extra contents of other disks.
+
+\section*{Problem 2}
+By allocating related records to blocks, we can often retrieve most of the requested records by a query with one disk access. So this strategy reduces the number of disk accesses for a given operation, and significantly improves performance.
+
+\section*{Problem 3}
+\begin{enumerate}
+\item 
+Advantages of storing a relation as a file include using the file system provided by the OS, thus simplifying the DBMS, but incurs the disadvantage of restricting the ability of the DBMS to increase performance by using more sophisticated storage structures.
+\item
+By using one file for the entire database, these complex structures can be implemented through the DBMS, but this increases the size and complexity of the DBMS. 
+\end{enumerate}
+
+\section*{Problem 4}
+It is preferable to use a dense index instead of a sparse index when the file is not sorted on the indexed field (such as when the index is a secondary index) or when the index file is small compared to the size of memory
+
+\section*{Problem 5}
+Hashing distributes search key values uniformly and randomly across the set of buckets available. Because key values do not occupy consecutive buckets, searching for all values within a range may well require reading every bucket --- far more inefficient than a B+-tree or even a sorted file without index.
+
+\section*{Problem 6}
+The existence bitmap for a relation can be calculated by taking the union 
+(logical-or) of all the bitmaps on that attribute, including the bitmap for 
+value null. 
+\end{document}
