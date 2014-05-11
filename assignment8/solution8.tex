@@ -1,0 +1,173 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm} 
+\usepackage{graphicx,psfrag} 
+\usepackage{fancyhdr}
+\usepackage{color} 
+\usepackage{geometry}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{leftidx} 
+\usepackage{mathrsfs} 
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\bfseries,       % keyword style
+  language=SQL,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\geometry{left=3.17cm,right=3.17cm,top=2.54cm,bottom=2.54cm}
+
+\begin{document}
+
+\pagestyle{fancy}
+\rfoot{\thepage}
+\rhead{\bfseries Database System Concept}
+\setlength{\parskip}{0.7ex plus0.2ex minus0.2ex}
+\cfoot{\empty}
+\lhead{\empty}
+
+
+\title{Assignment 8}
+\author{Qinglin Li, 5110309074}
+\date{}
+\maketitle
+
+\headheight 3pt
+\thispagestyle{fancy}
+\section*{Problem 1}
+Use the B+-tree to find the first tuple with $branch\_name = \text{``Downtown"}$ and $branch\_city < \text{``Brooklyn"}$, then scan the following tuples and check whether each tuple satisfies the condition on $assets$. Stop the scanning when $branch\_name \neq \text{``Downtown"}$ and $branch\_city \geq \text{``Brooklyn"}$
+
+\section*{Problem 2}
+In a \textbf{serial schedule}, no transaction starts until a running transaction has ended.\\
+A \textbf{serializable schedule} is a schedule that is equivalent (in its outcome) to a serial schedule
+
+\section*{Problem 3}
+\begin{enumerate}[a.]
+\item
+If we execute T1 first, the result should be $A=0$ and $B=1$\\
+If we execute T2 first, the result should be $A=1$ and $B=0$\\
+So in both case, the consistency requirement is satisfied.
+\item ~\\
+\begin{tabular}{|c|c|}
+\hline 
+T1 & T2 \\ 
+\hline 
+Read(A) & • \\ 
+\hline 
+• & Read(B) \\ 
+\hline 
+Read(B) & • \\ 
+\hline 
+• & Read(A) \\ 
+\hline 
+If A=0 then B:=B+1 & • \\ 
+\hline 
+• & If B=0 then A:=A+1 \\ 
+\hline 
+Write(B) & • \\ 
+\hline 
+• & Write(A) \\ 
+\hline 
+\end{tabular} 
+\item 
+No.\\
+Because If we want to produce a serializable result, we must execute the first read instruction after the other's write.
+
+\end{enumerate}
+\section*{Problem 4}
+\begin{enumerate}
+\item
+To improve throughput and resource utilization.
+\item
+To Reduce waiting time.
+\end{enumerate}
+\section*{Problem 5}
+\begin{enumerate}[a.]
+\item
+T31:
+\begin{itemize}%[label={}]
+\item[] lock-S(A)
+\item[] read(A)
+\item[] lock-X(B)
+\item[] read(B)
+\item[] if A = 0 then B:= B + 1 
+\item[] write(B)
+\item[] unlock(A)
+\item[] unlock(B)
+\end{itemize}
+T32:
+\begin{itemize}
+\item[] lock-S(B)
+\item[]read(B)
+\item[]lock-X(A)
+\item[]read(A)
+\item[]if B = 0 then A := A + 1
+\item[]write(A)
+\item[]unlock(B)
+\item[]unlock(A)
+\end{itemize}
+\item
+Yes.\\
+T31 acquire the lock on A first and then T32 acquire the lock on B.
+\end{enumerate}
+
+\section*{Problem 6}
+Advantage: It produces only cascadeless schedules, recovery is very easy.\\
+Disadvantage: The set of schedules obtainable is a subset of those obtainable from plain two phase locking, thus concurrency is reduced\\
+
+\section*{Problem 7}
+Suppose a transaction is rolled back because of a newer transaction's reading or
+writing the data which it plans to write. If the rolled back transaction
+is re-introduced with the same timestamp, the transaction should be rolled back again because of the same reason and the process would never end. 
+
+\section*{Problem 8}
+A transaction may become the victim of deadlock-prevention rollback arbitrarily many times, thus creating a potential starvation situation.
+
+\section*{Problem 9}
+Volatile storage is storage which fails after a power failure. Caches, main memories are volatile storage.\\
+Non-volatile storage is storage which retains its content after power failures. Magnetic disk, tapes are non-volatile storage.\\
+Stable storage is storage which survives any kind of failure. This type of storage can only be approximated by replicating data.\\~\\
+Volatile memory is the fastest and non-volatile storage is slower. Stable storage is the slowest because of the data replication.
+
+\section*{Problem 10}
+\begin{enumerate}[a.]
+\item 
+Stable storage cannot really be implemented because all storage devices are made of hardware, and all hardware is vulnerable to mechanical or electronic device failures.
+\item 
+ Database systems approximate stable storage by writing data to multiple storage devices simultaneously. Even if one of the devices crashes, the data will still be available on a different device.
+\end{enumerate}
+
+\section*{Problem 11}
+In a system crash, the CPU goes down, and disk may also crash. But stable-storage at the site is assumed to survive system crashes. \\
+In a disaster, everything at a site is destroyed. 
+\end{document}
+
